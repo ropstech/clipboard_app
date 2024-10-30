@@ -32,11 +32,16 @@ class ClipboardMonitor(QThread):
             if current_text != self.last_text and current_text:
                 self.last_text = current_text
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                category = self.categorize_content(current_text)
-                self.new_clipboard_entry.emit(f"{timestamp} - {current_text}", category)
-                clipboard_history["All"].append({"text": current_text, "timestamp": timestamp})
-                clipboard_history[category].append({"text": current_text, "timestamp": timestamp})
-            
+                
+                # Get all applicable categories
+                categories = self.categorize_content(current_text)
+
+                # Emit and store the entry for each category
+                for category in categories:
+                    self.new_clipboard_entry.emit(f"{timestamp} - {current_text}", category)
+                    clipboard_history["All"].append({"text": current_text, "timestamp": timestamp})
+                    clipboard_history[category].append({"text": current_text, "timestamp": timestamp})
+                
             time.sleep(0.5)
 
     def stop(self):
@@ -44,12 +49,26 @@ class ClipboardMonitor(QThread):
         self.wait()
 
     def categorize_content(self, content):
-        if re.match(r'^\d+(\.\d+)?$', content):
-            return "Numbers"
-        elif re.match(r'^(http|https)://', content):
-            return "URLs"
-        else:
-            return "Text"
+        categories = []
+
+        # Check if it's a URL
+        if re.match(r'^(http|https)://', content):
+            categories.append("URLs")
+
+        # Check if it's an email address
+        if re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', content):
+            categories.append("Emails")
+
+        # Check if it's mostly numeric (e.g., dates, phone numbers, amounts)
+        num_count = sum(c.isdigit() for c in content)
+        if num_count > len(content) / 2:
+            categories.append("Numbers")
+
+        # Default to "Text" if no other category matches
+        if not categories:
+            categories.append("Text")
+
+        return categories
 
 class ClipboardHistoryApp(QWidget):
     def __init__(self):
