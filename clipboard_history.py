@@ -155,7 +155,7 @@ class ClipboardHistoryApp(QWidget):
             for key in clipboard_history.keys():
                 clipboard_history[key].clear()
             self.history_list.clear()
-            QMessageBox.information(self, "Info", "Clipboard history cleared.")
+            #QMessageBox.information(self, "Info", "Clipboard history cleared.")
 
     def recopy_entry(self, item):
         entry_text = item.text().split(" - ", 1)[1]
