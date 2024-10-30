@@ -61,7 +61,7 @@ class ClipboardMonitor(QThread):
 class ClipboardHistoryApp(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Advanced Clipboard History")
+        self.setWindowTitle("Clipboard History")
         self.setGeometry(200, 200, 600, 500)
 
         # Main layout
