@@ -11,3 +11,5 @@ You have the option the copy each individual entry again with a simple click on 
 
 In the left sidebar you have 5 areas "All", "Text", "Numbers", "URL's" and "Emails".
 The programm should sort automatically accordingly to reg expressions.
+
+- Required packages can be found in the requirements.txt
