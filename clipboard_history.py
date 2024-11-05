@@ -66,7 +66,7 @@ class PasswordGeneratorDialog(QDialog):
 
         # Add a slider to select password length
         self.length_slider = QSlider(Qt.Orientation.Horizontal)
-        self.length_slider.setRange(8, 32)
+        self.length_slider.setRange(8, 99)
         self.length_slider.setValue(8)
         self.length_slider.valueChanged.connect(self.update_slider_label)
         layout.addWidget(self.length_slider)
@@ -74,11 +74,6 @@ class PasswordGeneratorDialog(QDialog):
         # Add a label to show the generated password
         self.password_label = QLabel("Generated Password: ")
         layout.addWidget(self.password_label)
-
-        # Add Generate Password Button
-        self.generate_button = QPushButton("Generate Password")
-        self.generate_button.clicked.connect(self.generate_password)
-        layout.addWidget(self.generate_button)
 
         # Add a button to regenerate a password with the same length
         self.regenerate_button = QPushButton("Regenerate Password")
@@ -93,20 +88,24 @@ class PasswordGeneratorDialog(QDialog):
         # Set layout
         self.setLayout(layout)
 
+        # Generate the initial password (8 characters by default)
+        self.generate_password()  # This ensures an initial password is generated when the window is first opened
+
     def update_slider_label(self):
-        """Update the slider label to show current password length"""
+        """Update the slider label to show current password length and regenerate password"""
         self.length_slider_label.setText(f"Password Length: {self.length_slider.value()}")
+        self.generate_password()  # Automatically regenerate the password when the slider is adjusted
 
     def generate_password(self):
         """Generate a random password with the selected length and display it"""
         self.password = self.create_password(self.length_slider.value())
-        self.password_label.setText(f"Generated Password: {self.password}")
+        self.password_label.setText(f"Generated Password:\n {self.password}")
 
     def regenerate_password(self):
         """Regenerate a new password with the same length as the last one"""
         length = len(self.password) if hasattr(self, 'password') else self.length_slider.value()
         self.password = self.create_password(length)
-        self.password_label.setText(f"Generated Password: {self.password}")
+        self.password_label.setText(f"Generated Password:\n {self.password}")
 
     def copy_password_to_clipboard(self):
         """Copy the currently shown password to the clipboard"""
