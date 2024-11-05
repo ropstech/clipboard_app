@@ -151,10 +151,6 @@ class ClipboardHistoryApp(QWidget):
         self.history_list = QListWidget()
         main_layout.addWidget(self.history_list)
 
-        # Add clipboard history label
-        self.label = QLabel("Clipboard History")
-        self.sidebar_layout.addWidget(self.label)
-
         # Clipboard monitoring thread
         self.monitor = ClipboardMonitor()
         self.monitor.new_clipboard_entry.connect(self.add_clipboard_entry)
