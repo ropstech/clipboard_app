@@ -177,7 +177,6 @@ class ClipboardHistoryApp(QWidget):
         for category in categories:
             button = QPushButton(category)
             button.clicked.connect(lambda checked, cat=category: self.switch_category(cat))
-            button.setFixedHeight(40)
             self.sidebar_layout.addWidget(button)
 
         # Add spacer at the bottom of sidebar
