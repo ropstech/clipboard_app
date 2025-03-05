@@ -63,7 +63,7 @@ class SystemTrayApp(QApplication):
 
         self.menu = QMenu()
         self.clipboard_history = []
-        self.max_display_length = 50  # Max characters for display
+        self.max_display_length = 40  # Max characters for display
 
         self.last_clipboard_text = pyperclip.paste()
 
@@ -84,14 +84,11 @@ class SystemTrayApp(QApplication):
         search_layout = QHBoxLayout()
         search_widget.setLayout(search_layout)
 
-        search_label = QLabel("Search")
+        search_label = QLabel("Select clip from clipboard to copy again")
         search_layout.addWidget(search_label)
 
-        self.search_bar = QLineEdit()
-        self.search_bar.setStyleSheet("padding: 5px; border-radius: 4px;")
-        search_layout.addWidget(self.search_bar)
 
-        search_layout.setContentsMargins(10, 5, 10, 5)
+        search_layout.setContentsMargins(5, 5, 10, 5)
         search_widget.setFixedHeight(search_widget.sizeHint().height())
 
         search_action = QWidgetAction(self.menu)
@@ -129,8 +126,7 @@ class SystemTrayApp(QApplication):
 
         self.history_layout = QVBoxLayout(self.history_container)
         self.history_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self.history_layout.setSpacing(5)
-        self.history_layout.setContentsMargins(10, 5, 10, 5)
+        self.history_layout.setSpacing(0)  # Remove spacing between history items
 
         self.scroll_area.setWidget(self.history_container)
 
@@ -141,7 +137,7 @@ class SystemTrayApp(QApplication):
         self.menu.addSeparator()
 
         # Auto-insert toggle
-        self.auto_insert_action = QAction("Automatic Insertion Disabled", self.menu)
+        self.auto_insert_action = QAction("Enable Disabled Button", self.menu)
         self.auto_insert_action.setCheckable(True)
         self.auto_insert_action.setChecked(False)
         self.menu.addAction(self.auto_insert_action)
@@ -149,7 +145,7 @@ class SystemTrayApp(QApplication):
         self.menu.addSeparator()
 
         # Quit Action
-        self.quit_action = QAction("Quit Clipboard Chimp", self.menu)
+        self.quit_action = QAction("Quit Clipboard Chimp                            ⌘Q", self.menu)
         self.quit_action.triggered.connect(self.quit_app)
         self.menu.addAction(self.quit_action)
 
